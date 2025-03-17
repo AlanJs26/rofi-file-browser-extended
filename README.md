@@ -240,6 +240,11 @@ Key bindings can be changed via command line options (see [Command line options/
 > Sort-by-type is secondary to sort-by-depth if both are enabled.
 > *(default: disabled)*
 
+#### -file-browser-sort-by-mtime, -file-browser-no-sort-by-mtime
+> Enable / disable sort-by-mtime. Sorts files by modification time, where recent modified files are listed on top.
+> Sort-by-mtime overrides both sort-by-type and sort-by-depth.
+> *(default: disabled)*
+
 #### -file-browser-hide-parent
 > Hide the parent directory (`..`).
 > *(default: shown)*

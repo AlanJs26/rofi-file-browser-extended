@@ -132,6 +132,13 @@ bool set_options ( FileBrowserModePrivateData *pd )
     } else {
         fd->sort_by_depth = SORT_BY_DEPTH;
     }
+    if (fb_find_arg("-file-browser-sort-by-mtime", pd)) {
+        fd->sort_by_mtime = true;
+    } else if (fb_find_arg("-file-browser-no-sort-by-mtime", pd)) {
+        fd->sort_by_mtime = false;
+    } else {
+        fd->sort_by_mtime = SORT_BY_MTIME;
+    }
 
     /* Start directory. */
     fd->current_dir = get_start_dir( pd );

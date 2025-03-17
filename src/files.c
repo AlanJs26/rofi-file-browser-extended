@@ -56,6 +56,12 @@ static gint compare_files_type ( gconstpointer a, gconstpointer b, gpointer data
 static gint compare_files_depth ( gconstpointer a, gconstpointer b, gpointer data );
 
 /**
+ * Compares files to sort by modification time.
+ * Then compares files alphabetically.
+ */
+static gint compare_files_mtime(gconstpointer a, gconstpointer b, gpointer data);
+
+/**
  * Compares files to sort by depth.
  * Then compares files to sort by type (directories first, inaccessible files last).
  * Then compares files alphabetically.
@@ -140,7 +146,9 @@ void load_files ( FileBrowserFileData *fd )
     }
 
     /* Sort all but the parent dir. */
-    if ( fd->sort_by_type ) {
+    if (fd->sort_by_mtime) {
+        g_qsort_with_data(sort_files, num_sort_files, sizeof(FBFile), compare_files_mtime, NULL);
+    } else if ( fd->sort_by_type ) {
         if ( fd->sort_by_depth ) {
             g_qsort_with_data ( sort_files, num_sort_files, sizeof ( FBFile ), compare_files_depth_type, NULL );
         } else {
@@ -250,6 +258,13 @@ static int add_file ( const char *fpath, G_GNUC_UNUSED const struct stat *sb, in
     }
     pos++;
 
+    struct stat fileStat;
+
+    if(stat(fpath, &fileStat) == 0) {
+        fbfile.mtime = fileStat.st_mtim.tv_sec;
+    }else {
+        fbfile.mtime = 0;
+    }
     fbfile.path = g_strdup ( fpath );
     fbfile.name = &fbfile.path[pos];
     fbfile.depth = ftwbuf->level;
@@ -326,6 +341,19 @@ static gint compare_files_depth ( gconstpointer a, gconstpointer b, G_GNUC_UNUSE
         return fa->depth - fb->depth;
     } else {
         return g_strcmp0 ( fa->name, fb->name );
+    }
+}
+
+static gint compare_files_mtime(gconstpointer a, gconstpointer b, G_GNUC_UNUSED gpointer data) 
+{
+    const FBFile *fa = a;
+    const FBFile *fb = b;
+    if (fa->type != fb->type) {
+        return fa->type - fb->type;
+    } else if (fa->mtime != fb->mtime) {
+        return fb->mtime - fa->mtime;
+    } else {
+        return g_strcmp0(fa->name, fb->name);
     }
 }
 

@@ -2,10 +2,11 @@
 #define FILE_BROWSER_DEFAULTS_H
 
 /* The starting directory. */
-#define START_DIR g_get_current_dir ()
+#define START_DIR g_get_current_dir()
 
 /* The configuration file. */
-#define CONFIG_FILE g_build_filename ( g_get_user_config_dir (), "rofi", "file-browser", NULL )
+#define CONFIG_FILE                                                            \
+  g_build_filename(g_get_user_config_dir(), "rofi", "file-browser", NULL)
 
 /* The default command used to open files. */
 #define CMD "xdg-open \"%s\""
@@ -33,6 +34,9 @@
 
 /* Sort file by depth: files with lower depth first. */
 #define SORT_BY_DEPTH false
+
+/* Sort file by mtime: files with more recent modification time first. */
+#define SORT_BY_MTIME false
 
 /* Print the file path instead of opening the file. */
 #define STDOUT_MODE false
@@ -72,11 +76,14 @@
 #define FALLBACK_ICON "text-x-generic"
 #define ERROR_ICON "error"
 
-/* The message to display when prompting the user to enter the program to open a file with.
-   If the message contains %s, it will be replaced with the file name. */
-#define OPEN_CUSTOM_MESSAGE_FORMAT "Enter command to open '%s' with, or cancel to go back."
+/* The message to display when prompting the user to enter the program to open a
+   file with. If the message contains %s, it will be replaced with the file
+   name. */
+#define OPEN_CUSTOM_MESSAGE_FORMAT                                             \
+  "Enter command to open '%s' with, or cancel to go back."
 
-/* Keys for custom bindings. Only KB_CUSTOM_* and KB_ACCEPT_ALT supported. See types.h. */
+/* Keys for custom bindings. Only KB_CUSTOM_* and KB_ACCEPT_ALT supported. See
+ * types.h. */
 /* Key for opening file with custom command. */
 #define OPEN_CUSTOM_KEY KB_ACCEPT_ALT
 /* Key for opening file without closing. */
@@ -89,7 +96,8 @@
 #define OPEN_CUSTOM_CMD_ICON_SEP ";icon:"
 
 /* The file containing the path for resuming from the last visited directory. */
-#define RESUME_FILE g_build_filename ( g_get_user_config_dir (), "rofi", "file-browser-resume", NULL )
+#define RESUME_FILE                                                            \
+  g_build_filename(g_get_user_config_dir(), "rofi", "file-browser-resume", NULL)
 /* Whether to resume from the last visited directory by default. */
 #define RESUME false
 

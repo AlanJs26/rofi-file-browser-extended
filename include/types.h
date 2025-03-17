@@ -27,6 +27,9 @@ typedef struct {
     /* Depth of the file when listing recursively. */
     unsigned int depth;
 
+    /* Modification time of the file. */
+    __time_t mtime;
+
     /* Rofi icon fetcher request IDs for possible icons. */
     uint32_t *icon_fetcher_requests;
     unsigned int num_icon_fetcher_requests;
@@ -59,6 +62,8 @@ typedef struct {
     bool sort_by_type;
     /* Show files with lower depth first. */
     bool sort_by_depth;
+    /* files with more recent modification time first. */
+    bool sort_by_mtime;
     /* Hide the parent directory (..). */
     bool hide_parent;
     /* Text for the parent directory (..). */
